@@ -22,6 +22,11 @@
 // baristas = {"Alice": {}, "Bob": {}, "Charlie": {}}
 // incomingorders = loadFromFile("orders.txt ");
 
+// PARAMETERS:
+    // T = 25           // total times ran
+    //MAX_ASSIGN = 3 
+    // ASSIGN_MODE = "shortest-queue
+
 // MAIN LOOP:
     // 1) ARRIVALS
     // set up a MAX_ASSIGN for orders per cycle
@@ -39,8 +44,33 @@
             // if make time == 0
                 // move order from inprogress to completed
 
-    // DISPLAY
+    // 4) DISPLAY
         // for each barista:
             // display their 3 phase lists
+            // show times to if order is in progress
+            // show has been complete when completed
 
+
+#include <iostream>   // lets us use input/output like std::cout and std::cin
+#include <fstream>    // allows reading and writing to files (used for orders.txt)
+#include <string>     // gives us the string class for storing words and names
+#include <vector>     // gives vector, used for storing incoming orders
+#include <array>      // gives array, used for our fixed 3-list structure
+#include <list>       // gives list, used for queue/in-progress/completed orders
+#include <map>        // gives map, used to map each barista to their 3 lists
+#include <algorithm>  // gives helper functions like min_element (used for shortest queue)
+using namespace std;
+
+struct Order {
+    string id;
+    string customer;
+    string drink;
+    string size;
+    int makeTime;
+};
+
+using Stagelist = array<list<Order>, 3>; // 0 = queue, 1 = inprogress, 2 = completed
+using BaristaMap = map<string, Stagelist>; //key is barista name and we are puttign stage list as the value
+
+// declearations
 
