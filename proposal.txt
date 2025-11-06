@@ -1,5 +1,13 @@
 OBJECTIVE:
 simulate a coffee shop over a time period of 25 times
 one time period will include a full cycle of new orders coming in, baristas starting drinks, drinks being done, and printing the shops status.
-Utilizing a map with an arary of three lists:
-each barrista will have a list 
+
+Utilizing a map with 3 barristas and an arary of three lists:
+each barrista will have an array of three lists, each list will be a part of the barristas workflow
+ie. Emma will have some customers incoming, in progress, and complete
+
+Simulated Events:
+The simulatino will simulate the activity of the coffe shop over 25 consistent time periods.
+With this we will be able to show how th ebaristas workload changes during the day
+
+
