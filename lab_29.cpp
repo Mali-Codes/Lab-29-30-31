@@ -73,25 +73,62 @@ using Stagelist = array<list<Order>, 3>; // 0 = queue, 1 = inprogress, 2 = compl
 using BaristaMap = map<string, Stagelist>; //key is barista name and we are puttign stage list as the value
 
 // declearations
+
+vector<Order> loadFromFile(const string& path) { // testing that the linker is linking and working
+    vector<Order> v;
+    ifstream fin(path);
+    string customer, drink, size;
+    int make = 0;
+    int idx = 1;
+
+    while (fin >> customer >> drink >> size >> make) {
+        v.push_back(Order{
+            "#" + to_string(idx++), customer, drink, size, make
+        });
+    }
+    return v;
+}
+
+// void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName); // & to modify the actual not a copy
+// void processOrders(BaristaMap& baristas);
+// void printStatus(const BaristaMap& baristas, int currentTime);
+// void printSummary(const BaristaMap& baristas);
+
+int main() {
+
     int T = 25;      // total times ran
     int MAX_ASSIGN = 3;
 
-vector<Order> loadFromFile(const string& path);
-void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName); // & to modify the actual not a copy
-void processOrders(BaristaMap& baristas);
-void printStatus(const BaristaMap& baristas, int currentTime);
-void printSummary(const BaristaMap& baristas);
-
-int main() {
     BaristaMap baristas{
         {"Alice", Stagelist{}},
         {"Bob", Stagelist{}},
         {"Griddy", Stagelist{}}
     };
 
+    cout << "Welcome to the Coffee Shop Simulation!" << endl;
 
-vector<Order> incoming = loadFromFile("orders.txt");
+    vector<Order> incoming = loadFromFile("orders.txt");
 
-cout << "Welcome to the Coffee Shop Simulation!" << endl;
+    cout << "Welcome to the Coffee Shop Simulation!\n";
 
+    cout << "\nLoaded " << incoming.size() << " orders:\n";
+    for (const auto& order : incoming) {
+        cout << order.customer << "\n";
+
+    }
 }
+// void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName) { // & to modify the actual not a copy
+//     // TODO find the barista with the shortest queue and set baristaName
+// }
+
+// void processOrders(BaristaMap& baristas) {
+//     // TODO: move orders between queue → inProgress → completed
+// }
+
+// void printStatus(const BaristaMap& baristas, int currentTime) {
+//     // TODO: print current state of each barista
+// }
+
+// void printSummary(const BaristaMap& baristas) {
+//     // TODO: print how many drinks each barista finished
+// }
