@@ -10,4 +10,3 @@ Simulated Events:
 The simulatino will simulate the activity of the coffe shop over 25 consistent time periods.
 With this we will be able to show how th ebaristas workload changes during the day
 
-
