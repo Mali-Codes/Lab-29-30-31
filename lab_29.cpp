@@ -74,3 +74,18 @@ using BaristaMap = map<string, Stagelist>; //key is barista name and we are putt
 
 // declearations
 
+vector<Order> loadFromFile(const string& path);
+void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName); // & to modify the actual not a copy
+void processOrders(BaristaMap& baristas);
+void printStatus(const BaristaMap& baristas, int currentTime);
+void printSummary(const BaristaMap& baristas);
+
+int main() {
+    BaristaMap baristas{
+        {"Alice", Stagelist{}}
+        {"Bob", Stagelist{}},
+        {"Griddy", Stagelist{}}
+    };
+}
+
+vector<Order> incoming = loadFromFile("orders.txt");
