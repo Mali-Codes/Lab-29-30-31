@@ -82,7 +82,7 @@ void printSummary(const BaristaMap& baristas);
 
 int main() {
     BaristaMap baristas{
-        {"Alice", Stagelist{}}
+        {"Alice", Stagelist{}},
         {"Bob", Stagelist{}},
         {"Griddy", Stagelist{}}
     };
