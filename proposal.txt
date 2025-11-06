@@ -1,0 +1,5 @@
+I am going to make a coffee shop simulation for orders and barristas 
+We will simulate the activity in the shop and track customers, drinks, and baristas 
+
+
+Uses map with value = 3 values we will store the customer name, drink 
