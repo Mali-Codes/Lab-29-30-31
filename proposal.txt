@@ -1,5 +1,5 @@
-I am going to make a coffee shop simulation for orders and barristas 
-We will simulate the activity in the shop and track customers, drinks, and baristas 
-
-
-Uses map with value = 3 values we will store the customer name, drink 
+OBJECTIVE:
+simulate a coffee shop over a time period of 25 times
+one time period will include a full cycle of new orders coming in, baristas starting drinks, drinks being done, and printing the shops status.
+Utilizing a map with an arary of three lists:
+each barrista will have a list 
