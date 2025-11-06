@@ -73,6 +73,8 @@ using Stagelist = array<list<Order>, 3>; // 0 = queue, 1 = inprogress, 2 = compl
 using BaristaMap = map<string, Stagelist>; //key is barista name and we are puttign stage list as the value
 
 // declearations
+    int T = 25;      // total times ran
+    int MAX_ASSIGN = 3;
 
 vector<Order> loadFromFile(const string& path);
 void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName); // & to modify the actual not a copy
@@ -86,6 +88,10 @@ int main() {
         {"Bob", Stagelist{}},
         {"Griddy", Stagelist{}}
     };
-}
+
 
 vector<Order> incoming = loadFromFile("orders.txt");
+
+cout << "Welcome to the Coffee Shop Simulation!" << endl;
+
+}
