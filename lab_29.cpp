@@ -75,11 +75,13 @@ using BaristaMap = map<string, Stagelist>; //key is barista name and we are putt
 
 // declearations
 
-void testLoadFromFile();
-void tesetFindShortestQueueBarista();
-void testProcessOrders();
-void testPrintStatus();
-void testPrintSummary();
+// didnt end up using since I renamed functions and tested with them
+
+// void testLoadFromFile();
+// void tesetFindShortestQueueBarista();
+// void testProcessOrders();
+// void testPrintStatus();
+// void testPrintSummary();
 
 // testing that the linker is linking and working - ********** WORKS **********
 vector<Order> loadFromFile(const string& path) { //loadiing from file and now 
