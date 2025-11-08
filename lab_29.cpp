@@ -67,6 +67,7 @@ struct Order {
     string size;
     int makeTime;
 };
+vector<Order> loadFromFile(const string& path);
 
 using Stagelist = array<list<Order>, 3>; // 0 = queue, 1 = inprogress, 2 = completed
 using BaristaMap = map<string, Stagelist>; //key is barista name and we are puttign stage list as the value
@@ -80,24 +81,34 @@ void testPrintStatus();
 void testPrintSummary();
 
 // testing that the linker is linking and working - ********** WORKS **********
-vector<Order> loadFromFile(const string& path) { // testing that the linker is linking and working
+vector<Order> loadFromFile(const string& path) { //loadiing from file and now 
     vector<Order> v;
     ifstream fin(path);
+    
     if (!fin) {
-        cerr << "Error: could not open " << path << endl;
+        cerr << "Error: Could not open file " << path << endl;
         return v;
     }
+    
+    string customer;
+    string drink;
+    string size;
 
-    string line;   ///re do this part to actually load orders into v
+    int make = 0;
     int idx = 1;
 
-    // read the file line-by-line
-    while (getline(fin, line)) {
-        cout << "Line " << idx << ": " << line << endl;  
-        idx++;
+    while (fin >> customer >> drink >> size >> make) {
+        v.push_back(Order{          //Now we pushback eveyting into the vector
+            "#" + to_string(idx++), 
+            customer, 
+            drink, 
+            size, 
+            make
+        });
     }
-
-    return v; 
+    
+    fin.close();
+    return v;
 }
 
 
@@ -131,8 +142,9 @@ int main() {
     vector<Order> incoming = loadFromFile("test_orders.txt"); // testing that the linker is linking and working GOOOD
     
     cout << "\nLoaded " << incoming.size() << " orders:\n";
+    cout << "\nLoaded " << incoming.size() << " orders:\n";
     for (const auto& order : incoming) {
-        cout << order.customer << "\n";
+        cout << order.customer << " " << order.drink << " "  << order.size <<  "\n";
     }
     cout << "------------------------\n" << endl;
 
