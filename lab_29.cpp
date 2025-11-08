@@ -134,7 +134,7 @@ void processOrders(BaristaMap& baristas) {
         list<Order>& completed = phases[2];
      
          if (inProgress.empty() && !queue.empty()) {        // Had help from a family friend to figure all fo this out
-            inProgress.push_front(queue.front());             // gave me structure now figuring out why it isnt going
+            inProgress.push_front(queue.front());             
             queue.pop_front();
         }
         
@@ -146,6 +146,21 @@ void processOrders(BaristaMap& baristas) {
                 completed.push_back(current);
                 inProgress.pop_front();
             }
+        }
+    }
+}
+
+void printStatus(const BaristaMap& baristas, int currentTime) {
+    cout << "stats at time " << currentTime << "\n";
+    for (const auto& [name, phases] : baristas) {
+        const auto& queue = phases[0];
+        const auto& inProgress = phases[1];
+        const auto& completed = phases[2];
+
+        cout << name << ":\n";
+        cout << "  Queue (" << queue.size() << "): ";
+        for (const auto& order : queue) {
+            cout << order.id << " ";
         }
     }
 }
@@ -183,19 +198,11 @@ int main() {
 
     processOrders(baristas);
     
-    cout << "After: Queue size = " << baristas["Alice"][0].size() << "\n";
-    cout << "After: InProgress size = " << baristas["Alice"][1].size() << "\n";
+    printStatus(baristas, T);
     
     return 0;
 
 }
-// void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName) { // & to modify the actual not a copy
-//     // TODO find the barista with the shortest queue and set baristaName
-// }
-
-// void processOrders(BaristaMap& baristas) {
-//     // TODO: move orders between queue → inProgress → completed
-// }
 
 // void printStatus(const BaristaMap& baristas, int currentTime) {
 //     // TODO: print current state of each barista
