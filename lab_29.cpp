@@ -105,8 +105,12 @@ void testFindShortestQueueBarista(const BaristaMap& baristas, string& baristaNam
     cout << "testFindShortestQueueBarista() called:" << endl;
 
     auto smol = min_element(
-        baristas.begin, baristas.end(), // read all the baristas
+        baristas.begin(), baristas.end(), // read all the baristas
+        (const auto& a, const auto& b) {
+            return [a.second[0].size() < b.second[0].size()]; // compare queue sizes
+        }
     );
+    baristaName = (smol != baristas.end()) ? smol->first : ""; // get the name of the barista with the smallest queue
 }
 
 
@@ -125,15 +129,23 @@ int main() {
     cout << "Welcome to the Coffee Shop Simulation!" << endl;
 
     vector<Order> incoming = loadFromFile("test_orders.txt"); // testing that the linker is linking and working GOOOD
-
-
     
-
     cout << "\nLoaded " << incoming.size() << " orders:\n";
     for (const auto& order : incoming) {
         cout << order.customer << "\n";
-
     }
+    cout << "------------------------\n" << endl;
+
+    // set up some test data for findShortestQueueBarista
+    baristas["Alice"][0].push_back({"#1","Alex","Latte","M",3});
+    baristas["Alice"][0].push_back({"#2","Jamie","Mocha","L",4});
+    baristas["Bob"][0].push_back({"#3","Taylor","Espresso","S",2});
+    // Griddy has an empty queue
+
+    string result;
+    testFindShortestQueueBarista(baristas, result);
+    cout << "Barista with shortest queue: " << result << endl;
+
 }
 // void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName) { // & to modify the actual not a copy
 //     // TODO find the barista with the shortest queue and set baristaName
