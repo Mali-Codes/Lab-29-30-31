@@ -3,7 +3,6 @@
 //------------------------------------------------------------------------------
 // Lab 29: Coffee Shop Simulation
 //------------------------------------------------------------------------------
-
 // Order:
     // id: string
     // customer : string
@@ -58,7 +57,8 @@
 #include <array>      // gives array, used for our fixed 3-list structure
 #include <list>       // gives list, used for queue/in-progress/completed orders
 #include <map>        // gives map, used to map each barista to their 3 lists
-#include <algorithm>  // gives helper functions like min_element (used for shortest queue)
+#include <algorithm>
+#include <cassert>  // gives helper functions like min_element (used for shortest queue)
 using namespace std;
 
 struct Order {
@@ -68,32 +68,104 @@ struct Order {
     string size;
     int makeTime;
 };
+vector<Order> loadFromFile(const string& path);
 
 using Stagelist = array<list<Order>, 3>; // 0 = queue, 1 = inprogress, 2 = completed
 using BaristaMap = map<string, Stagelist>; //key is barista name and we are puttign stage list as the value
 
 // declearations
 
-vector<Order> loadFromFile(const string& path) { // testing that the linker is linking and working
+// didnt end up using since I renamed functions and tested with them
+
+// void testLoadFromFile();
+// void tesetFindShortestQueueBarista();
+// void testProcessOrders();
+// void testPrintStatus();
+// void testPrintSummary();
+
+// testing that the linker is linking and working - ********** WORKS **********
+vector<Order> loadFromFile(const string& path) { //loadiing from file and now 
     vector<Order> v;
     ifstream fin(path);
-    string customer, drink, size;
+    
+    if (!fin) {
+        cerr << "Error: Could not open file " << path << endl;
+        return v;
+    }
+    
+    string customer;
+    string drink;
+    string size;
+
     int make = 0;
     int idx = 1;
 
     while (fin >> customer >> drink >> size >> make) {
-        v.push_back(Order{
-            "#" + to_string(idx++), customer, drink, size, make
+        v.push_back(Order{          //Now we pushback eveyting into the vector
+            "#" + to_string(idx++), 
+            customer, 
+            drink, 
+            size, 
+            make
         });
     }
+    
+    fin.close();
     return v;
 }
 
-// void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName); // & to modify the actual not a copy
-// void processOrders(BaristaMap& baristas);
-// void printStatus(const BaristaMap& baristas, int currentTime);
-// void printSummary(const BaristaMap& baristas);
 
+void FindShortestQueueBarista(const BaristaMap& baristas, string& baristaName) {  //works so renaming
+    cout << "testFindShortestQueueBarista() called:" << endl;
+
+    auto smol = min_element(
+        baristas.begin(), baristas.end(), // read all the baristas
+        [](const auto& a, const auto& b) {
+            return a.second[0].size() < b.second[0].size(); // compare queue sizes
+        }
+    );
+    baristaName = (smol != baristas.end()) ? smol->first : ""; // get the name of the barista with the smallest queue
+}
+
+void processOrders(BaristaMap& baristas) {
+
+     for (auto& pair : baristas) {
+        Stagelist& phases = pair.second;
+        list<Order>& queue = phases[0];
+        list<Order>& inProgress = phases[1];
+        list<Order>& completed = phases[2];
+     
+         if (inProgress.empty() && !queue.empty()) {        // Had help from a family friend to figure all fo this out
+            inProgress.push_front(queue.front());             
+            queue.pop_front();
+        }
+        
+        if (!inProgress.empty()) {
+            Order& current = inProgress.front();
+            current.makeTime -= 1;  // Reduce time by 1
+            
+            if (current.makeTime == 0) {
+                completed.push_back(current);
+                inProgress.pop_front();
+            }
+        }
+    }
+}
+
+void printStatus(const BaristaMap& baristas, int currentTime) {
+    cout << "stats at time " << currentTime << "\n";
+    for (const auto& [name, phases] : baristas) {
+        const auto& queue = phases[0];
+        const auto& inProgress = phases[1];
+        const auto& completed = phases[2];
+
+        cout << name << ":\n";
+        cout << "  Queue (" << queue.size() << "): ";
+        for (const auto& order : queue) {
+            cout << order.id << " ";
+        }
+    }
+}
 int main() {
 
     int T = 25;      // total times ran
@@ -107,23 +179,32 @@ int main() {
 
     cout << "Welcome to the Coffee Shop Simulation!" << endl;
 
-    vector<Order> incoming = loadFromFile("orders.txt");
-
-    cout << "Welcome to the Coffee Shop Simulation!\n";
-
+    vector<Order> incoming = loadFromFile("test_orders.txt"); // testing that the linker is linking and working GOOOD
+    
+    cout << "\nLoaded " << incoming.size() << " orders:\n";
     cout << "\nLoaded " << incoming.size() << " orders:\n";
     for (const auto& order : incoming) {
-        cout << order.customer << "\n";
-
+        cout << order.customer << " " << order.drink << " "  << order.size <<  "\n";
     }
-}
-// void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName) { // & to modify the actual not a copy
-//     // TODO find the barista with the shortest queue and set baristaName
-// }
+    cout << "------------------------\n" << endl;
 
-// void processOrders(BaristaMap& baristas) {
-//     // TODO: move orders between queue → inProgress → completed
-// }
+    // set up some test data for findShortestQueueBarista
+    baristas["Alice"][0].push_back({"#1","Alex","Latte","M",3});
+    baristas["Alice"][0].push_back({"#2","Jamie","Mocha","L",4});
+    baristas["Bob"][0].push_back({"#3","Taylor","Espresso","S",2});
+    // Griddy has an empty queue
+
+    string result;
+    FindShortestQueueBarista(baristas, result);
+    cout << "Barista with shortest queue: " << result << endl;
+
+    processOrders(baristas);
+    
+    printStatus(baristas, T);
+    
+    return 0;
+
+}
 
 // void printStatus(const BaristaMap& baristas, int currentTime) {
 //     // TODO: print current state of each barista
