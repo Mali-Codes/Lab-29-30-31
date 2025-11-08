@@ -57,7 +57,8 @@
 #include <array>      // gives array, used for our fixed 3-list structure
 #include <list>       // gives list, used for queue/in-progress/completed orders
 #include <map>        // gives map, used to map each barista to their 3 lists
-#include <algorithm>  // gives helper functions like min_element (used for shortest queue)
+#include <algorithm>
+#include <cassert>  // gives helper functions like min_element (used for shortest queue)
 using namespace std;
 
 struct Order {
@@ -124,8 +125,30 @@ void testFindShortestQueueBarista(const BaristaMap& baristas, string& baristaNam
     baristaName = (smol != baristas.end()) ? smol->first : ""; // get the name of the barista with the smallest queue
 }
 
+void processOrders(BaristaMap& baristas) {
 
-
+     for (auto& pair : baristas) {
+        Stagelist& phases = pair.second;
+        list<Order>& queue = phases[0];
+        list<Order>& inProgress = phases[1];
+        list<Order>& completed = phases[2];
+     
+         if (inProgress.empty() && !queue.empty()) {
+            inProgress.push_back(queue.back());
+            queue.pop_back();
+        }
+        
+        if (!inProgress.empty()) {
+            Order& current = inProgress.front();
+            current.makeTime -= 1;  // Reduce time by 1
+            
+            if (current.makeTime == 0) {
+                completed.push_back(current);
+                inProgress.pop_front();
+            }
+        }
+    }
+}
 int main() {
 
     int T = 25;      // total times ran
@@ -157,6 +180,13 @@ int main() {
     string result;
     testFindShortestQueueBarista(baristas, result);
     cout << "Barista with shortest queue: " << result << endl;
+
+    processOrders(baristas); 
+    
+    cout << "After: Queue size = " << baristas["Alice"][0].size() << "\n";
+    cout << "After: InProgress size = " << baristas["Alice"][1].size() << "\n";
+    
+    return 0;
 
 }
 // void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName) { // & to modify the actual not a copy
