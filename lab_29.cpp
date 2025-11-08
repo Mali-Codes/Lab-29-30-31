@@ -101,6 +101,16 @@ vector<Order> loadFromFile(const string& path) { // testing that the linker is l
 }
 
 
+void testFindShortestQueueBarista(const BaristaMap& baristas, string& baristaName) {
+    cout << "testFindShortestQueueBarista() called:" << endl;
+
+    auto smol = min_element(
+        baristas.begin, baristas.end(), // read all the baristas
+    );
+}
+
+
+
 int main() {
 
     int T = 25;      // total times ran
