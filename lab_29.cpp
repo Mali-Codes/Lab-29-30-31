@@ -113,7 +113,7 @@ vector<Order> loadFromFile(const string& path) { //loadiing from file and now
 }
 
 
-void testFindShortestQueueBarista(const BaristaMap& baristas, string& baristaName) {
+void FindShortestQueueBarista(const BaristaMap& baristas, string& baristaName) {  //works so renaming
     cout << "testFindShortestQueueBarista() called:" << endl;
 
     auto smol = min_element(
@@ -133,9 +133,9 @@ void processOrders(BaristaMap& baristas) {
         list<Order>& inProgress = phases[1];
         list<Order>& completed = phases[2];
      
-         if (inProgress.empty() && !queue.empty()) {
-            inProgress.push_back(queue.back());
-            queue.pop_back();
+         if (inProgress.empty() && !queue.empty()) {        // Had help from a family friend to figure all fo this out
+            inProgress.push_front(queue.front());             // gave me structure now figuring out why it isnt going
+            queue.pop_front();
         }
         
         if (!inProgress.empty()) {
@@ -178,10 +178,10 @@ int main() {
     // Griddy has an empty queue
 
     string result;
-    testFindShortestQueueBarista(baristas, result);
+    FindShortestQueueBarista(baristas, result);
     cout << "Barista with shortest queue: " << result << endl;
 
-    processOrders(baristas); 
+    processOrders(baristas);
     
     cout << "After: Queue size = " << baristas["Alice"][0].size() << "\n";
     cout << "After: InProgress size = " << baristas["Alice"][1].size() << "\n";
