@@ -88,7 +88,7 @@ vector<Order> loadFromFile(const string& path) { // testing that the linker is l
         return v;
     }
 
-    string line;
+    string line;   ///re do this part to actually load orders into v
     int idx = 1;
 
     // read the file line-by-line
@@ -106,8 +106,8 @@ void testFindShortestQueueBarista(const BaristaMap& baristas, string& baristaNam
 
     auto smol = min_element(
         baristas.begin(), baristas.end(), // read all the baristas
-        (const auto& a, const auto& b) {
-            return [a.second[0].size() < b.second[0].size()]; // compare queue sizes
+        [](const auto& a, const auto& b) {
+            return a.second[0].size() < b.second[0].size(); // compare queue sizes
         }
     );
     baristaName = (smol != baristas.end()) ? smol->first : ""; // get the name of the barista with the smallest queue
