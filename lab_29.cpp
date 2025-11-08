@@ -3,7 +3,6 @@
 //------------------------------------------------------------------------------
 // Lab 29: Coffee Shop Simulation
 //------------------------------------------------------------------------------
-// ****TESTING GIT
 // Order:
     // id: string
     // customer : string
@@ -74,25 +73,33 @@ using BaristaMap = map<string, Stagelist>; //key is barista name and we are putt
 
 // declearations
 
+void testLoadFromFile();
+void tesetFindShortestQueueBarista();
+void testProcessOrders();
+void testPrintStatus();
+void testPrintSummary();
+
+// testing that the linker is linking and working - ********** WORKS **********
 vector<Order> loadFromFile(const string& path) { // testing that the linker is linking and working
     vector<Order> v;
     ifstream fin(path);
-    string customer, drink, size;
-    int make = 0;
+    if (!fin) {
+        cerr << "Error: could not open " << path << endl;
+        return v;
+    }
+
+    string line;
     int idx = 1;
 
-    while (fin >> customer >> drink >> size >> make) {
-        v.push_back(Order{
-            "#" + to_string(idx++), customer, drink, size, make
-        });
+    // read the file line-by-line
+    while (getline(fin, line)) {
+        cout << "Line " << idx << ": " << line << endl;  
+        idx++;
     }
-    return v;
+
+    return v; 
 }
 
-// void findShortestQueueBarista(const BaristaMap& baristas, string& baristaName); // & to modify the actual not a copy
-// void processOrders(BaristaMap& baristas);
-// void printStatus(const BaristaMap& baristas, int currentTime);
-// void printSummary(const BaristaMap& baristas);
 
 int main() {
 
@@ -107,9 +114,10 @@ int main() {
 
     cout << "Welcome to the Coffee Shop Simulation!" << endl;
 
-    vector<Order> incoming = loadFromFile("orders.txt");
+    vector<Order> incoming = loadFromFile("test_orders.txt"); // testing that the linker is linking and working GOOOD
 
-    cout << "Welcome to the Coffee Shop Simulation!\n";
+
+    
 
     cout << "\nLoaded " << incoming.size() << " orders:\n";
     for (const auto& order : incoming) {
