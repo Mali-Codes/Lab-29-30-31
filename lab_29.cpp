@@ -158,15 +158,31 @@ void printStatus(const BaristaMap& baristas, int currentTime) {
                 cout << "empty ";
                 continue;
             }
-            else {cout << order.customer << " ";
+            else {cout << order.id << " ";
             }
         }
         cout << "\n";
 
         cout << " In Progress (" << phases[1].size() << "): ";
-        for (const auto& order : phases[1]) {
-            cout << order.customer << "(" << order.makeTime << ") ";
+        if (phases[1].empty()){
+                cout << "empty ";
+            }
+            else{
+                const Order& current = phases[1].front();
+                cout << current.id << " (" << current.makeTime << " mins left)";
         }
+        cout << "\n";
+
+        cout << " Completed (" << phases[2].size() << "): ";
+        if (phases[2].empty()){
+                cout << "empty ";
+            }
+            else{
+                for (const auto& order : phases[2]) {
+                    cout << order.id << " ";
+                }
+        }
+        cout << "\n------------------------\n";
     }
 }
 int main() {
