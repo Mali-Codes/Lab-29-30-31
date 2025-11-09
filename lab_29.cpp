@@ -154,16 +154,11 @@ void processOrders(BaristaMap& baristas) {
 
 void printStatus(const BaristaMap& baristas, int currentTime) {
     cout << "stats at time " << currentTime << "\n";
-    for (const auto& [name, phases] : baristas) {
-        const auto& queue = phases[0];
-        const auto& inProgress = phases[1];
-        const auto& completed = phases[2];
+    for (const auto& pair : baristas) {
+        const string& name = pair.first;
+        const Stagelist& phases = pair.second;
 
-        cout << name << ":\n";
-        cout << "  Queue (" << queue.size() << "): ";
-        for (const auto& order : queue) {
-            cout << order.id << " ";
-        }
+        cout << "Barista: " << name << "\n";
     }
 }
 int main() {
