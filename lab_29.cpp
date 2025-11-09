@@ -159,6 +159,12 @@ void printStatus(const BaristaMap& baristas, int currentTime) {
         const Stagelist& phases = pair.second;
 
         cout << "Barista: " << name << "\n";
+
+        cout << " Queue (" << phases[0].size() << "): ";
+        for (const auto& order : phases[0]) {
+            cout << order.customer << " ";
+        }
+        cout << "\n";
     }
 }
 int main() {
