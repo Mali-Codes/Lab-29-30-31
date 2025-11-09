@@ -75,14 +75,6 @@ using BaristaMap = map<string, Stagelist>; //key is barista name and we are putt
 
 // declearations
 
-// didnt end up using since I renamed functions and tested with them
-
-// void testLoadFromFile();
-// void tesetFindShortestQueueBarista();
-// void testProcessOrders();
-// void testPrintStatus();
-// void testPrintSummary();
-
 // testing that the linker is linking and working - ********** WORKS **********
 vector<Order> loadFromFile(const string& path) { //loadiing from file and now 
     vector<Order> v;
@@ -162,9 +154,19 @@ void printStatus(const BaristaMap& baristas, int currentTime) {
 
         cout << " Queue (" << phases[0].size() << "): ";
         for (const auto& order : phases[0]) {
-            cout << order.customer << " ";
+            if (phases[0].empty()){
+                cout << "empty ";
+                continue;
+            }
+            else {cout << order.customer << " ";
+            }
         }
         cout << "\n";
+
+        cout << " In Progress (" << phases[1].size() << "): ";
+        for (const auto& order : phases[1]) {
+            cout << order.customer << "(" << order.makeTime << ") ";
+        }
     }
 }
 int main() {
