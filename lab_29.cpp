@@ -75,14 +75,6 @@ using BaristaMap = map<string, Stagelist>; //key is barista name and we are putt
 
 // declearations
 
-// didnt end up using since I renamed functions and tested with them
-
-// void testLoadFromFile();
-// void tesetFindShortestQueueBarista();
-// void testProcessOrders();
-// void testPrintStatus();
-// void testPrintSummary();
-
 // testing that the linker is linking and working - ********** WORKS **********
 vector<Order> loadFromFile(const string& path) { //loadiing from file and now 
     vector<Order> v;
@@ -154,16 +146,43 @@ void processOrders(BaristaMap& baristas) {
 
 void printStatus(const BaristaMap& baristas, int currentTime) {
     cout << "stats at time " << currentTime << "\n";
-    for (const auto& [name, phases] : baristas) {
-        const auto& queue = phases[0];
-        const auto& inProgress = phases[1];
-        const auto& completed = phases[2];
+    for (const auto& pair : baristas) {
+        const string& name = pair.first;
+        const Stagelist& phases = pair.second;
 
-        cout << name << ":\n";
-        cout << "  Queue (" << queue.size() << "): ";
-        for (const auto& order : queue) {
-            cout << order.id << " ";
+        cout << "Barista: " << name << "\n";
+
+        cout << " Queue (" << phases[0].size() << "): ";
+        for (const auto& order : phases[0]) {
+            if (phases[0].empty()){
+                cout << "empty ";
+                continue;
+            }
+            else {cout << order.id << " ";
+            }
         }
+        cout << "\n";
+
+        cout << " In Progress (" << phases[1].size() << "): ";
+        if (phases[1].empty()){
+                cout << "empty ";
+            }
+            else{
+                const Order& current = phases[1].front();
+                cout << current.id << " (" << current.makeTime << " mins left)";
+        }
+        cout << "\n";
+
+        cout << " Completed (" << phases[2].size() << "): ";
+        if (phases[2].empty()){
+                cout << "empty ";
+            }
+            else{
+                for (const auto& order : phases[2]) {
+                    cout << order.id << " ";
+                }
+        }
+        cout << "\n------------------------\n";
     }
 }
 int main() {
