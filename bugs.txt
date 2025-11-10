@@ -1,1 +1,11 @@
-writing all bugs on paper then putting them in here
+1. with all the loops there were some {} errors through out building
+2. time logic mishaps
+3. empty list crahsing
+4. file not found error 
+5. data not going int the vector
+6. wrong < or > logic
+7. modifying while iterating
+8. incorrect map access
+9. time issues with time increading when not wanted after callign more than once
+10. weird runtime error with vs code that caused an infinite loop
+11. push front and push back being used in the wrong order

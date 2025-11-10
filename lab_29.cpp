@@ -233,7 +233,7 @@ int main() {
 
     cout << "Welcome to the Coffee Shop Simulation!" << endl;
 
-    vector<Order> incoming = loadFromFile("test_orders.txt"); // testing that the linker is linking and working GOOOD
+    vector<Order> incoming = loadFromFile("orders.txt"); // testing that the linker is linking and working GOOOD
     
     cout << "\nLoaded " << incoming.size() << " orders:\n";
     cout << "\nLoaded " << incoming.size() << " orders:\n";
