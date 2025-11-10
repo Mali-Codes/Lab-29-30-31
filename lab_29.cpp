@@ -58,7 +58,6 @@
 #include <list>       // gives list, used for queue/in-progress/completed orders
 #include <map>        // gives map, used to map each barista to their 3 lists
 #include <algorithm>
-#include <cassert>  // gives helper functions like min_element (used for shortest queue)
 using namespace std;
 
 struct Order {
@@ -156,9 +155,11 @@ void printStatus(const BaristaMap& baristas, int currentTime) {
         for (const auto& order : phases[0]) {
             if (phases[0].empty()){
                 cout << "empty ";
-                continue;
             }
-            else {cout << order.id << " ";
+            else {
+                for (const auto& order : phases[0]) {
+                    cout << order.id << " ";
+                }
             }
         }
         cout << "\n";
@@ -185,6 +186,7 @@ void printStatus(const BaristaMap& baristas, int currentTime) {
         cout << "\n------------------------\n";
     }
 }
+
 int main() {
 
     int T = 25;      // total times ran
@@ -220,6 +222,7 @@ int main() {
     processOrders(baristas);
     
     printStatus(baristas, T);
+
     
     return 0;
 
@@ -232,3 +235,4 @@ int main() {
 // void printSummary(const BaristaMap& baristas) {
 //     // TODO: print how many drinks each barista finished
 // }
+
