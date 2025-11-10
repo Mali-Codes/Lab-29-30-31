@@ -158,7 +158,7 @@ void printStatus(const BaristaMap& baristas, int currentTime) { // gonna re do t
             cout << "Empty";
         } else {
             for (const auto& order : queue) {
-                cout << order.id << " ";
+                cout << order.id << " [" << order.customer << "]  ";
             }
         cout << "\n";
         }
@@ -167,9 +167,10 @@ void printStatus(const BaristaMap& baristas, int currentTime) { // gonna re do t
         if (inProg.empty()) {
             cout << "Empty";
         } else {
-            for (const auto& order : inProg) {
-                cout << order.id << " ";
-            }
+            const Order& current = inProg.front();
+            cout << current.id << " [" << current.customer << "] ("
+                 << current.makeTime << " min"
+                 << (current.makeTime == 1 ? "" : "s") << " left)\n";
         }
         cout << "\n";
 
@@ -178,7 +179,7 @@ void printStatus(const BaristaMap& baristas, int currentTime) { // gonna re do t
             cout << "Empty";
         } else {
             for (const auto& order : completed) {
-                cout << order.id << " ";
+                cout << order.id << " [" << order.customer << "]  ";
             }
         }
         cout << "\n";
@@ -206,7 +207,17 @@ void assignArrivals(BaristaMap& baristas, const vector<Order>& incoming, int& ne
     }
 }
 
+void Summary(const BaristaMap& baristas) {
+    cout << "\n===== Simulation Summary =====\n";
+    for (const auto& pair : baristas) {
+        const string& name = pair.first; //name
+        const Stagelist& phases = pair.second; //process
+        const auto& completed = phases[2]; //comlete from list
 
+        cout << "Barista: " << name << " completed " << completed.size() << " drink"
+             << (completed.size() == 1 ? "" : "s") << ".\n";
+    }
+}
 
 
 int main() {
@@ -238,7 +249,7 @@ int main() {
         processOrders(baristas);
         printStatus(baristas, t);
     }
-    
+    Summary(baristas);
     return 0;
 
 }
