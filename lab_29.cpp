@@ -188,18 +188,21 @@ void printStatus(const BaristaMap& baristas, int currentTime) {
 }
 
 
+
 void assignArrivals(BaristaMap& baristas, const vector<Order>& incoming, int& nextId, int MAX_ASSIGN) {
     int assigned = 0;
-    while (assigned < MAX_ASSIGN && nextID > (int)incoming.size()) {
+    while (assigned < MAX_ASSIGN && nextId < (int)incoming.size()) {
         string name;
         FindShortestQueueBarista(baristas, name);
         if (name.empty()) {
-            break; // No baristas available
-        baristas[name][0].push_back(incoming(nextId));
+            break;                           
         }
+        baristas[name][0].push_back(incoming[nextId]);
+        
+        ++nextId;
+        ++assigned;
     }
 }
-
 
 
 
@@ -226,24 +229,20 @@ int main() {
     }
     cout << "------------------------\n" << endl;
 
-    // set up some test data for findShortestQueueBarista
-    baristas["Alice"][0].push_back({"#1","Alex","Latte","M",3});
-    baristas["Alice"][0].push_back({"#2","Jamie","Mocha","L",4});
-    baristas["Bob"][0].push_back({"#3","Taylor","Espresso","S",2});
-    // Griddy has an empty queue
+    int nextId = 0;
 
-    string result;
-    FindShortestQueueBarista(baristas, result);
-    cout << "Barista with shortest queue: " << result << endl;
-
-    processOrders(baristas);
-    
-    printStatus(baristas, T);
-
+    for (int t = 1; t <= T; ++t) {
+        assignArrivals(baristas, incoming, nextId, MAX_ASSIGN);
+        processOrders(baristas);
+        printStatus(baristas, t);
+    }
     
     return 0;
 
 }
+
+
+
 
 // void printStatus(const BaristaMap& baristas, int currentTime) {
 //     // TODO: print current state of each barista
