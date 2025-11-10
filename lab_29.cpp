@@ -58,6 +58,7 @@
 #include <list>       // gives list, used for queue/in-progress/completed orders
 #include <map>        // gives map, used to map each barista to their 3 lists
 #include <algorithm>
+#include <iomanip>
 using namespace std;
 
 struct Order {
@@ -141,48 +142,28 @@ void processOrders(BaristaMap& baristas) {
     }
 }
 
-void printStatus(const BaristaMap& baristas, int currentTime) {
-    cout << "stats at time " << currentTime << "\n";
+void printStatus(const BaristaMap& baristas, int currentTime) { // gonna re do this whole function to look better now I know the processing works
+    cout << "==================== Time " << setw(2) << currentTime << " ====================\n";
     for (const auto& pair : baristas) {
         const string& name = pair.first;
         const Stagelist& phases = pair.second;
+        const auto& queue      = phases[0];
+        const auto& inProgress = phases[1];
+        const auto& completed  = phases[2];
 
         cout << "Barista: " << name << "\n";
 
-        cout << " Queue (" << phases[0].size() << "): ";
-        for (const auto& order : phases[0]) {
-            if (phases[0].empty()){
-                cout << "empty ";
-            }
-            else {
-                for (const auto& order : phases[0]) {
-                    cout << order.id << " ";
-                }
+        cout << " " << left << setw(12) << "Queue: ";
+        if (queue.empty()) {
+            cout << "Empty";
+        } else {
+            for (const auto& order : queue) {
+                cout << order.id << " ";
             }
         }
-        cout << "\n";
 
-        cout << " In Progress (" << phases[1].size() << "): ";
-        if (phases[1].empty()){
-                cout << "empty ";
-            }
-            else{
-                const Order& current = phases[1].front();
-                cout << current.id << " (" << current.makeTime << " mins left)";
-        }
-        cout << "\n";
-
-        cout << " Completed (" << phases[2].size() << "): ";
-        if (phases[2].empty()){
-                cout << "empty ";
-            }
-            else{
-                for (const auto& order : phases[2]) {
-                    cout << order.id << " ";
-                }
-        }
-        cout << "\n------------------------\n";
     }
+
 }
 
 
