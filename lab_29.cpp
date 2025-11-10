@@ -147,21 +147,44 @@ void printStatus(const BaristaMap& baristas, int currentTime) { // gonna re do t
     for (const auto& pair : baristas) {
         const string& name = pair.first;
         const Stagelist& phases = pair.second;
-        const auto& queue      = phases[0];
-        const auto& inProgress = phases[1];
-        const auto& completed  = phases[2];
+        const auto& queue = phases[0];
+        const auto& inProg = phases[1];
+        const auto& completed = phases[2];
 
         cout << "Barista: " << name << "\n";
 
-        cout << " " << left << setw(12) << "Queue: ";
+        cout << " " << left << setw(12) << "Queue: "; // suing this structre for every phase
         if (queue.empty()) {
             cout << "Empty";
         } else {
             for (const auto& order : queue) {
                 cout << order.id << " ";
             }
+        cout << "\n";
         }
 
+        cout << " " << left << setw(12) << "In Progress: ";
+        if (inProg.empty()) {
+            cout << "Empty";
+        } else {
+            for (const auto& order : inProg) {
+                cout << order.id << " ";
+            }
+        }
+        cout << "\n";
+
+        cout << " " << left << setw(12) << "Completed: ";
+        if (completed.empty()) {
+            cout << "Empty";
+        } else {
+            for (const auto& order : completed) {
+                cout << order.id << " ";
+            }
+        }
+        cout << "\n";
+
+        cout << "**************************\n";
+        
     }
 
 }
