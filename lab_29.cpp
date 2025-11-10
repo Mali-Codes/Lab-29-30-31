@@ -107,8 +107,6 @@ vector<Order> loadFromFile(const string& path) { //loadiing from file and now
 
 
 void FindShortestQueueBarista(const BaristaMap& baristas, string& baristaName) {  //works so renaming
-    cout << "testFindShortestQueueBarista() called:" << endl;
-
     auto smol = min_element(
         baristas.begin(), baristas.end(), // read all the baristas
         [](const auto& a, const auto& b) {
