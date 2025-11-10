@@ -187,6 +187,23 @@ void printStatus(const BaristaMap& baristas, int currentTime) {
     }
 }
 
+
+void assignArrivals(BaristaMap& baristas, const vector<Order>& incoming, int& nextId, int MAX_ASSIGN) {
+    int assigned = 0;
+    while (assigned < MAX_ASSIGN && nextID > (int)incoming.size()) {
+        string name;
+        FindShortestQueueBarista(baristas, name);
+        if (name.empty()) {
+            break; // No baristas available
+        baristas[name][0].push_back(incoming(nextId));
+        }
+    }
+}
+
+
+
+
+
 int main() {
 
     int T = 25;      // total times ran
